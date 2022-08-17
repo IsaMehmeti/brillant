@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/profile', function () { return view('profile');})->name('profile');
 
 Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('edit/user', 'UserController@edit')->name('user.edit');
+Route::post('user/update', 'UserController@update')->name('user.update');
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('shelves', 'ShelfController');
+Route::resource('sales', 'SaleController');
+Route::resource('materials', 'MaterialController');
+Route::resource('material-categories', 'MaterialCategoryController');

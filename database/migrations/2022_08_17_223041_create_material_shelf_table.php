@@ -13,13 +13,13 @@ class CreateMaterialShelfTable extends Migration
      */
     public function up()
     {
-        Schema::create('material_shelf', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('material_id')->constrained();
-            $table->foreignId('shelf_id')->constrained();
-            $table->float('quantity');
-            $table->timestamps();
-        });
+//        Schema::create('material_shelf', function (Blueprint $table) {
+//            $table->id();
+//            $table->foreignId('material_id')->constrained();
+//            $table->foreignId('shelf_id')->constrained();
+//            $table->float('quantity');
+//            $table->timestamps();
+//        });
     }
 
     /**

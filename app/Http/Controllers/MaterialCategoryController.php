@@ -10,39 +10,38 @@ class MaterialCategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $categories = MaterialCategory::all();
+        return view('categories.index', compact('categories'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'nullable'
+        ]);
+        MaterialCategory::create($request->all());
+        return redirect()->route('material-categories.index')->with('status', 'U shtua me sukses');
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\MaterialCategory  $materialCategory
-     * @return \Illuminate\Http\Response
      */
     public function show(MaterialCategory $materialCategory)
     {
@@ -52,34 +51,34 @@ class MaterialCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MaterialCategory  $materialCategory
-     * @return \Illuminate\Http\Response
      */
     public function edit(MaterialCategory $materialCategory)
     {
-        //
+        return view('categories.edit', compact('materialCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MaterialCategory  $materialCategory
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, MaterialCategory $materialCategory)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'nullable'
+        ]);
+        $materialCategory->update($request->all());
+        return redirect()->route('material-categories.index')->with('status', 'U ndryshua me sukses');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MaterialCategory  $materialCategory
-     * @return \Illuminate\Http\Response
      */
     public function destroy(MaterialCategory $materialCategory)
     {
-        //
+        $materialCategory->delete();
+        cache()->clear();
+        return redirect()->route('material-categories.index')->with('danger', 'Kategoriea u fshi');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Material;
 use App\Models\MaterialCategory;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->share('categories', MaterialCategory::all());
+        if (Schema::hasTable('material_categories')){
+            view()->share('categories', MaterialCategory::all());
+        }
     }
 }

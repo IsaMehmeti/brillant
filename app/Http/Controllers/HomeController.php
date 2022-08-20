@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Material;
+use App\Models\MaterialCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -19,10 +22,17 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        return view('home');
+        $data = [];
+        foreach (MaterialCategory::all() as $category){
+            $data[$category->title] = 0;
+                $data[$category->title] += $category->materials->sum('quantity');
+        }
+        return view('home')->with([
+            'material_count' => DB::table('materials')->sum('quantity'),
+            ...$data
+        ]);
     }
 }

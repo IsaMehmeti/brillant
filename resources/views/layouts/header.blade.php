@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand fixed-top be-top-header">
   <div class="container-fluid">
     <div class="be-navbar-header">
-      <a href="/"> <img src="/img/logo-xx.png" style="width: 80%"> </a>
+      <a href="/"> <img src="/img/logo.jpg" class="ml-3" style="width: 40px; height:35px"> </a>
     </div>
-   {{--  <div class="page-title"><span>Dashboard</span></div> --}}
+      <div class="page-title"><span>@yield('pageTitle')</span></div>
     @if(Auth::check())
     <div class="be-right-navbar">
       <ul class="nav navbar-nav float-right be-user-nav">

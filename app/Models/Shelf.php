@@ -12,6 +12,6 @@ class Shelf extends Model
 
     public function materials()
     {
-        return $this->belongsToMany(Material::class)->withPivot('quantity');
+        return $this->belongsToMany(Material::class)->withPivot(['quantity', 'id']);
     }
 }

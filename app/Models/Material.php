@@ -10,15 +10,15 @@ class Material extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'quantity', 'price_per_cm', 'category_id'];
-    protected $with = ['category', 'shelves'];
+    protected $with = ['category'];
 
     public function category()
     {
         return $this->belongsTo(MaterialCategory::class);
     }
-
-    public function shelves()
-    {
-        return $this->belongsToMany(Shelf::class)->withPivot('quantity');
-    }
+//
+//    public function shelves()
+//    {
+//        return $this->belongsToMany(Shelf::class)->withPivot(['quantity', 'id']);
+//    }
 }

@@ -17,8 +17,8 @@
       <div class="widget widget-tile">
         <div class="chart sparkline" id="spark2"></div>
         <div class="data-info">
-          <div class="desc">Gjithsej Material</div>
-          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number">{{'0'}}</span>
+          <div class="desc">STOKU</div>
+          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number">{{$material_count}}m</span>
           </div>
         </div>
       </div>
@@ -29,7 +29,10 @@
         <div class="chart sparkline" id="spark3"></div>
         <div class="data-info">
           <div class="desc">Gjithsej {{$category->title}}</div>
-          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number">{{'0'}}</span>
+            @php
+                $name = $category->title;
+            @endphp
+          <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span class="number">{{$$name}}m</span>
           </div>
         </div>
       </div>

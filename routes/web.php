@@ -13,18 +13,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/profile', function () { return view('profile');})->name('profile');
-
 Auth::routes();
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::group(['middleware'=>'auth'], function(){
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/profile', function () { return view('profile');})->name('profile');
 
-Route::get('edit/user', 'UserController@edit')->name('user.edit');
-Route::post('user/update', 'UserController@update')->name('user.update');
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::resource('shelves', 'ShelfController');
-Route::resource('sales', 'SaleController');
-Route::resource('materials', 'MaterialController');
-Route::resource('material-categories', 'MaterialCategoryController');
+    Route::get('edit/user', 'UserController@edit')->name('user.edit');
+    Route::post('user/update', 'UserController@update')->name('user.update');
+
+    //Route::resource('shelves', 'ShelfController');
+    Route::get('sales/invoice', function(){return view('sales.invoice');})->name('sales.invoice');
+    Route::get('sales/add/{id}', 'SaleController@add')->name('sales.add');
+    Route::get('sales/remove/{id}', 'SaleController@remove')->name('sales.remove');
+    Route::resource('sales', 'SaleController');
+    Route::resource('materials', 'MaterialController');
+    Route::get('materials/add/{material}', 'MaterialController@add')->name('materials.add');
+    Route::get('materials/category/{category}', 'MaterialController@showCategory')->name('materials.showCategory');
+    Route::patch('materials/attach/{material}', 'MaterialController@attach')->name('materials.attach');
+    Route::resource('material-categories', 'MaterialCategoryController');
+});

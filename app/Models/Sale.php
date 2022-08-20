@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model
 {
     use HasFactory;
-    protected $fillable = ['customer_name', 'sale_date', 'user_id', 'comment'];
+    protected $fillable = ['customer_name', 'customer_address', 'sale_date', 'user_id', 'comment', 'total_amount'];
 
     public function user()
     {
@@ -17,6 +17,6 @@ class Sale extends Model
 
     public function materials()
     {
-        return $this->belongsToMany(Material::class)->withPivot('quantity');
+        return $this->hasMany(SaleMaterial::class);
     }
 }

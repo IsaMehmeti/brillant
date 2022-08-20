@@ -15,10 +15,12 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->timestamp('sale_date');
+            $table->string('customer_name')->nullable();
+            $table->string('customer_address')->nullable();
+            $table->date('sale_date')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->text('comment')->nullable();
+            $table->string('total_amount')->nullable();
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MaterialCategory extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'unit', 'description'];
 
     public function materials()
     {

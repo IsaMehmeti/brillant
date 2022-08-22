@@ -7,6 +7,7 @@ use App\Models\Sale;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class SaleController extends Controller
 {
@@ -16,7 +17,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales = Sale::all();
+        $sales = Sale::orderBy('id', 'DESC')->get();
         return view('sales.index', compact('sales'));
     }
 
@@ -44,6 +45,10 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        $material_ids = $this->getCacheData();
+        if (!$material_ids or $material_ids === '[]'){
+            return redirect()->route('materials.index')->with('danger', 'Zgjedh te pakten 1 material per shitje');
+        }
         $valid = $request->validate([
             'customer_name' => 'nullable',
             'sale_date' => 'nullable',
@@ -52,20 +57,20 @@ class SaleController extends Controller
         $valid['user_id'] = auth()->id();
         $sale = Sale::create($valid);
 
-        $material_ids = $this->getCacheData();
         $i = 0;
         $orders = [];
         $total = 0;
         foreach ($request->quantities as $quantity){
-            if ($quantity){
+            if ($quantity and $request->prices[$i]){
                 $material = Material::find($material_ids[$i]);
 
-                $orders[$i] = ['material' => $material, 'quantity' => $quantity, 'total_price' => $material->price_per_cm*$quantity];
+                $orders[$i] = ['material' => $material, 'quantity' => $quantity, 'total_price' => $request->prices[$i]*$quantity];
 
                 $total = $total + $orders[$i]['total_price'];
                 $sale->materials()->create([
                     'quantity' => $quantity,
-                    'unit_price' => $material->price_per_cm,
+                    'unit_price' => $request->prices[$i],
+                    'unit' => $material->category->unit,
                     'amount' => $orders[$i]['total_price'],
                     'material_title' => $material->title,
                     'material_category' => $material->category->title,
@@ -78,7 +83,7 @@ class SaleController extends Controller
         $sale->total_amount = $total;
         $sale->update();
         cache()->clear();
-        return view('sales.invoice', compact('sale'));
+        return "<script>window.open('".route('sales.invoice', $sale->id)."', '_blank')</script>";
     }
 
     public function add($material_id)
@@ -102,6 +107,12 @@ class SaleController extends Controller
         }
         cache()->put('data', json_encode($data));
         return redirect()->back();
+    }
+
+    public function invoice($id)
+    {
+        $sale = Sale::find($id);
+        return view('sales.invoice', compact('sale'));
     }
 
     public function getCacheData()
@@ -143,6 +154,8 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        //
+        $sale->materials()->delete();
+        $sale->delete();
+        return redirect()->back()->with(['danger' => 'Shitja u fshi']);
     }
 }

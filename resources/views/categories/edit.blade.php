@@ -14,6 +14,10 @@
             <label for="emri">Emri<span class="text-danger">*</span></label>
             <input class="form-control" name="title" id="name" type="text" placeholder="" value="{{$materialCategory->title}}">
           </div>
+            <div class="form-group pt-2">
+            <label for="inputEmail">Njesia<span class="text-danger">*</span> </label>
+            <input class="form-control" name="unit" id="unit" type="text" placeholder="" value="{{$materialCategory->unit}}">
+          </div>
           <div class="form-group pt-2">
             <label for="Pershkrimi">Pershkrimi</label>
             <textarea class="form-control" name="description" id="surname" type="text">{{$materialCategory->description}}</textarea>

@@ -14,7 +14,11 @@
             <input class="form-control" name="title" id="title" type="text" placeholder="" value="{{ old('title') }}">
           </div>
           <div class="form-group pt-2">
-            <label for="description">Pershkrimi </label>
+            <label for="inputEmail">Njesia<span class="text-danger">*</span> </label>
+            <input class="form-control" name="unit" id="unit" type="text" placeholder="" value="{{ old('unit') }}">
+          </div>
+          <div class="form-group pt-2">
+            <label for="description">Pershkrimi</label>
             <textarea class="form-control" name="description" id="description" type="text">{{ old('description') }}</textarea>
           </div>
           <div class="row pt-3">

@@ -15,11 +15,13 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('code');
+            $table->string('color');
+            $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->float('quantity');
-            $table->float('price_per_cm');
             $table->foreignId('category_id')->constrained('material_categories')->onDelete('cascade');
+            $table->foreignId('firm_id')->constrained('firms')->onDelete('cascade');
             $table->timestamps();
         });
     }

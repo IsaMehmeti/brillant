@@ -10,48 +10,46 @@
         <table class="table table-striped table-hover table-fw-widget" id="table1">
           <thead>
             <tr>
-              <th>Emri</th>
-              <th>Sasia</th>
-              <th>Qmimi per meter</th>
-              <th>Raftet</th>
-              <th>Kategoria</th>
-              <th>Pershkrimi</th>
+              <th>ID</th>
+              <th>Klienti</th>
+              <th>Adresa e Klientit</th>
+              <th>Data</th>
+              <th>Materiali</th>
               <th>Veprimet</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($materials as $material)
+            @foreach($sales as $sale)
             <tr class="odd gradeX">
-              <td>{{$material->title}}</td>
-              <td>{{$material->shelves->sum('pivot.quantity')}}m</td>
-              <td>{{$material->price_per_cm}}eur</td>
-              <td>
-                @if($material->shelves()->count())
-                  <div>
-                    <select class="form-control">
-                        @foreach($material->shelves as $shelf)
-                          <option>{{$shelf->title}} - {{$shelf->pivot->quantity}}m</option>
-                        @endforeach
-                    </select>
-                  </div>
+              <td>{{$sale->id}}</td>
+              <td>{{$sale->customer_name}}</td>
+              <td>{{$sale->customer_address}}</td>
+              <td>{{$sale->sale_date}}</td>
+               @if($sale->materials()->count() > 0)
+                  <td>
+                      <div class="col-sm-12">
+                        <select class="form-control">
+                            @foreach($sale->materials as $material)
+                              <option> {{$material->quantity}}{{$material->unit}} {{$material->material_title}} {{$material->material_category}} - {{$material->amount}}eur</option>
+                            @endforeach
+                        </select>
+                      </div>
+                  </td>
                 @else
-                    E zbrazet
+                    <td>
+                    </td>
                 @endif
-              </td>
-              <td>{{$material->category->title}}</td>
-              <td>{{$material->description}}</td>
               <td>
-                  <a href="{{route('materials.add', $material->id)}}" class="btn mr-2 btn-success">Shto+</a>
-                  <a href="{{route('materials.edit', $material->id)}}" class="btn mr-2 btn-info">Ndryshoje</a>
-                <form action="{{route('materials.destroy', $material->id)}}" method="POST" class="w-100 d-inline">
+                  <a target="_blank" href="{{route('sales.invoice', $sale->id)}}" class="btn mr-2 btn-success">Printoje</a>
+                <form action="{{route('sales.destroy', $sale->id)}}" method="POST" class="w-100 d-inline">
                   @csrf
                   @method('Delete')
                 <button type="submit" class="btn mr-2 btn-danger">Fshije</button>
                 </form>
               </td>
             </tr>
-          </tbody>
           @endforeach
+          </tbody>
         </table>
       </div>
     </div>
@@ -60,20 +58,20 @@
 @endsection
 
 @section('custom_footer')
-  <script src="/lib/datatables/datatables.net/js/jquery.dataTables.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-bs4/js/dataTables.bootstrap4.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-buttons/js/dataTables.buttons.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-buttons/js/buttons.flash.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/jszip/jszip.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/pdfmake/pdfmake.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/pdfmake/vfs_fonts.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-buttons/js/buttons.colVis.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-buttons/js/buttons.print.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-buttons/js/buttons.html5.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-responsive/js/dataTables.responsive.min.js" type="text/javascript"></script>
-  <script src="/lib/datatables/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js" type="text/javascript"></script>
-  <script src="/js/app-tables-datatables.js" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net/js/jquery.dataTables.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-bs4/js/dataTables.bootstrap4.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-buttons/js/dataTables.buttons.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-buttons/js/buttons.flash.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/jszip/jszip.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/pdfmake/pdfmake.min.js')}}" type="text/javascript'"></script>
+  <script src="{{asset('/lib/datatables/pdfmake/vfs_fonts.js')}}" type="text/javascript'"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-buttons/js/buttons.colVis.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-buttons/js/buttons.print.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-buttons/js/buttons.html5.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-responsive/js/dataTables.responsive.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/lib/datatables/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('/js/app-tables-datatables.js')}}" type="text/javascript"></script>
 @endsection
 @section('custom_scripts')
 <script type="text/javascript">

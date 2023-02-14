@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use App\Models\Sale;
+use App\Models\SaleMaterial;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -74,6 +75,7 @@ class SaleController extends Controller
                     'amount' => $orders[$i]['total_price'],
                     'material_title' => $material->title,
                     'material_category' => $material->category->title,
+                    'material_id' => $material->id,
                 ]);
                 $material->quantity -= $quantity;
                 $material->save();
@@ -148,6 +150,30 @@ class SaleController extends Controller
         //
     }
 
+    public function return(Request $request, Sale $sale)
+    {
+        if (!$request->material_ids){
+            return redirect()->back()->with(['warning' => 'Zgjedhe të paktën një material për rikthim']);
+        }
+        foreach($request->material_ids as $material_id) {
+            $saleMaterial = SaleMaterial::find($material_id);
+            if (!$saleMaterial){
+                return redirect()->back()->with(['warning' => 'Kjo Shitje nuk egziston ose është fshirë']);
+            }
+            $material = Material::find($saleMaterial->material_id);
+            if (!$material){
+                return redirect()->back()->with(['warning' => 'Ky Material nuk egziston ose është fshirë']);
+            }
+            $material->quantity += $saleMaterial->quantity;
+            $material->save();
+            $saleMaterial->delete();
+        }
+
+        if($sale->materials()->count() === 0){
+             $sale->delete();
+        }
+        return redirect()->back()->with(['status' => 'Shitja u rikthye']);
+    }
     /**
      * Remove the specified resource from storage.
      *

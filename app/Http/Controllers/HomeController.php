@@ -26,16 +26,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = [];
+
+        $data = [
+            'material_count' => DB::table('materials')->sum('quantity'),
+            'sales' => Sale::latest()->take(5)->get(),
+            'sale' => Sale::get('total_amount')->sum('total_amount'),
+        ];
         foreach (MaterialCategory::all() as $category){
             $data[$category->title] = 0;
                 $data[$category->title] += $category->materials->sum('quantity');
         }
-        return view('home')->with([
-            'material_count' => DB::table('materials')->sum('quantity'),
-            'sales' => Sale::latest()->take(5)->get(),
-            'sale' => Sale::get('total_amount')->sum('total_amount'),
-            ...$data
-        ]);
+
+        return view('home')->with($data);
     }
 }

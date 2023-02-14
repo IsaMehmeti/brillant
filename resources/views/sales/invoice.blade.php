@@ -25,16 +25,9 @@
     <div class="container px-0">
         <div class="row mt-4">
             <div class="col-12 col-lg-12">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="text-center text-150">
-                            <img src="{{asset('/img/logo.jpg')}}" width="100" height="100">
-                        </div>
-                    </div>
-                </div>
+
                 <!-- .row -->
 
-                <hr class="row brc-default-l1 mx-n1 mb-4" />
 
                 <div class="row">
                     <div class="col-sm-6">

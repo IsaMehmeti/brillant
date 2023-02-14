@@ -21,6 +21,7 @@ class CreateSaleMaterialsTable extends Migration
             $table->string('amount')->nullable();
             $table->string('material_title')->nullable();
             $table->string('material_category')->nullable();
+            $table->string('material_id')->nullable();
             $table->foreignId('sale_id')->constrained('sales')->onDelete('cascade');
             $table->timestamps();
         });

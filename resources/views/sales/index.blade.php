@@ -25,26 +25,29 @@
               <td>{{$sale->customer_name}}</td>
               <td>{{$sale->customer_address}}</td>
               <td>{{$sale->sale_date}}</td>
-               @if($sale->materials()->count() > 0)
-                  <td>
-                      <div class="col-sm-12">
-                        <select class="form-control">
-                            @foreach($sale->materials as $material)
-                              <option> {{$material->quantity}}{{$material->unit}} {{$material->material_title}} {{$material->material_category}} - {{$material->amount}}eur</option>
-                            @endforeach
-                        </select>
-                      </div>
-                  </td>
-                @else
-                    <td>
-                    </td>
-                @endif
               <td>
-                  <a target="_blank" href="{{route('sales.invoice', $sale->id)}}" class="btn mr-2 btn-success">Printoje</a>
+              <form action="{{route('sales.return', $sale->id)}}" method="POST" class="w-100 d-inline">
+               @if($sale->materials()->count() > 0)
+                      <div class="col-sm-12">
+                          <select id="multiple-checkboxes" multiple="multiple" name="material_ids[]">
+                            @foreach($sale->materials as $material)
+                              <option value="{{$material->id}}"> {{$material->quantity}}{{$material->unit}} {{$material->material_title}} {{$material->material_category}} - {{$material->amount}}eur</option>
+                            @endforeach
+                          </select>
+                      </div>
+                @else
+                @endif
+                  </td>
+              <td>
+                  @csrf
+                  @method('POST')
+                <button type="submit" class="btn mr-2 btn-secondary btn-rounded {{$sale->materials()->count() === 0 ? 'd-none' : ''}}">Rikthe <i class="icon mdi mdi-refresh"></i></button>
+                </form>
+                  <a target="_blank" href="{{route('sales.invoice', $sale->id)}}" class="btn mr-2 btn-success">Printoje <i class="icon mdi mdi-print"></i></a>
                 <form action="{{route('sales.destroy', $sale->id)}}" method="POST" class="w-100 d-inline">
                   @csrf
                   @method('Delete')
-                <button type="submit" class="btn mr-2 btn-danger">Fshije</button>
+                <button type="submit" class="btn mr-2 btn-danger">Fshije <i class="icon mdi mdi-delete"></i></button>
                 </form>
               </td>
             </tr>
@@ -72,6 +75,8 @@
   <script src="{{asset('/lib/datatables/datatables.net-responsive/js/dataTables.responsive.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('/lib/datatables/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('/js/app-tables-datatables.js')}}" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
 @endsection
 @section('custom_scripts')
 <script type="text/javascript">
@@ -79,6 +84,10 @@
     //-initialize the javascript
     App.init();
     App.dataTables();
+    $('#multiple-checkboxes').multiselect({
+        includeSelectAllOption: true,
+        nonSelectedText: 'Materialet e Shitura'
+    });
   });
 </script>
 @endsection

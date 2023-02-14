@@ -27,6 +27,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('sales/invoice/{id}', 'SaleController@invoice')->name('sales.invoice');
     Route::get('sales/add/{id}', 'SaleController@add')->name('sales.add');
     Route::get('sales/remove/{id}', 'SaleController@remove')->name('sales.remove');
+    Route::post('sales/return/{id}', 'SaleController@return')->name('sales.return');
     Route::resource('sales', 'SaleController');
     Route::resource('materials', 'MaterialController');
     Route::resource('firms', 'FirmController');

@@ -1,25 +1,17 @@
 @extends('layouts.admin')
-@section('pageTitle', 'Shto Kategorine')
+@section('pageTitle', 'Shto Firmen')
 
 @section('content')
 <div class="row justify-content-center">
   <div class="col-lg-6">
     <div class="card card-border-color card-border-color-primary">
-      <div class="card-header card-header-divider">Shto Kategorine</div>
+      <div class="card-header card-header-divider">Shto Firmen</div>
       <div class="card-body">
-        <form action="{{route('material-categories.store')}}" method="POST">
+        <form action="{{route('firms.store')}}" method="POST">
           @csrf
           <div class="form-group pt-2">
             <label for="inputEmail">Emri<span class="text-danger">*</span> </label>
             <input class="form-control" name="title" id="title" type="text" placeholder="" value="{{ old('title') }}">
-          </div>
-          <div class="form-group pt-2">
-            <label for="inputEmail">Njesia<span class="text-danger">*</span> </label>
-            <input class="form-control" name="unit" id="unit" type="text" placeholder="" value="{{ old('unit') }}">
-          </div>
-          <div class="form-group pt-2">
-            <label for="description">Pershkrimi</label>
-            <textarea class="form-control" name="description" id="description" type="text">{{ old('description') }}</textarea>
           </div>
           <div class="row pt-3">
             <div class="col-sm-12">

@@ -27,8 +27,9 @@
             @foreach($materials as $material)
           <div class="form-group pt-3 align-center form-inline">
             <label for="product"><h4>{{$i}}. {{$material->title}}  </h4></label>
-              <input class="form-control col-md-3 ml-3 quantity" name="quantities[]" id="{{$material->id}}" type="number" step="0.01" min="0" placeholder="0m">
-              <h4 class="ml-3 text-muted">Ne stok: <span id="stok{{$material->id}}">{{$material->quantity}}</span>m</h4>
+              <input class="form-control col-md-2 ml-3 quantity" name="quantities[]" id="{{$material->id}}" type="number" step="0.01" min="0" placeholder="Sasia">
+              <h4 class="ml-3 text-muted">Ne stok: <span id="stok{{$material->id}}">{{$material->quantity}}</span>{{$material->category->unit}}</h4>
+              <input class="form-control col-md-3 ml-3 quantity" name="prices[]" type="number" step="0.01" min="0" placeholder="Qmimi per {{$material->category->unit}}">
               <input type="hidden" id="actual{{$material->id}}" value="{{$material->quantity}}">
               <a href="{{route('sales.remove', $material->id)}}" class="btn btn-danger ml-3">Fshije</a>
 

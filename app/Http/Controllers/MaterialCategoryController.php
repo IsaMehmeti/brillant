@@ -34,6 +34,7 @@ class MaterialCategoryController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'unit' => 'required',
             'description' => 'nullable'
         ]);
         MaterialCategory::create($request->all());
@@ -65,6 +66,7 @@ class MaterialCategoryController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'unit' => 'required',
             'description' => 'nullable'
         ]);
         $materialCategory->update($request->all());

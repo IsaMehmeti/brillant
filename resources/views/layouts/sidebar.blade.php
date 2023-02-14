@@ -40,6 +40,13 @@
                 <li class="{{ Request::is('material-categories/create') ? 'active' : '' }}"><a href="{{route('material-categories.create')}}" class="text-success">Shto</a></li>
               </ul>
             </li>
+              <li class="parent {{ Request::is('firms/*') ? 'open' : '' }}">
+                <a href="#"><i class="icon mdi mdi-account"></i><span>Firmat</span></a>
+              <ul class="sub-menu">
+                 <li class="{{ Request::is('firms') ? 'active' : '' }}"><a href="{{route('firms.index')}}">Firmat</a></li>
+                <li class="{{ Request::is('firms/create') ? 'active' : '' }}"><a href="{{route('firms.create')}}" class="text-success">Shto</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

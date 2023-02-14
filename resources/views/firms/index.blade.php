@@ -1,47 +1,27 @@
 @extends('layouts.admin')
-@section('pageTitle', 'Shitjet')
+@section('pageTitle', 'Firmat')
 
 @section('content')
 <div class="row">
   <div class="col-sm-12">
     <div class="card card-table">
-      <div class="card-header">Shitjet</div>
+      <div class="card-header">Firmat</div>
       <div class="card-body">
         <table class="table table-striped table-hover table-fw-widget" id="table1">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Klienti</th>
-              <th>Adresa e Klientit</th>
-              <th>Data</th>
+              <th>Emri</th>
               <th>Materiali</th>
               <th>Veprimet</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($sales as $sale)
+            @foreach($firms as $firm)
             <tr class="odd gradeX">
-              <td>{{$sale->id}}</td>
-              <td>{{$sale->customer_name}}</td>
-              <td>{{$sale->customer_address}}</td>
-              <td>{{$sale->sale_date}}</td>
-               @if($sale->materials()->count() > 0)
-                  <td>
-                      <div class="col-sm-12">
-                        <select class="form-control">
-                            @foreach($sale->materials as $material)
-                              <option> {{$material->quantity}}{{$material->unit}} {{$material->material_title}} {{$material->material_category}} - {{$material->amount}}eur</option>
-                            @endforeach
-                        </select>
-                      </div>
-                  </td>
-                @else
-                    <td>
-                    </td>
-                @endif
-              <td>
-                  <a target="_blank" href="{{route('sales.invoice', $sale->id)}}" class="btn mr-2 btn-success">Printoje</a>
-                <form action="{{route('sales.destroy', $sale->id)}}" method="POST" class="w-100 d-inline">
+              <td>{{$firm->title}}</td>
+              <td>{{$firm->materials()->count()}}</td>
+              <td><a href="{{route('firms.edit', $firm->id)}}" class="btn mr-2 btn-info">Ndryshoje</a>
+                <form action="{{route('firms.destroy', $firm->id)}}" method="POST" class="w-100 d-inline">
                   @csrf
                   @method('Delete')
                 <button type="submit" class="btn mr-2 btn-danger">Fshije</button>

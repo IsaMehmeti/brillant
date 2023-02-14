@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Firm;
 use App\Models\Material;
 use App\Models\MaterialCategory;
 use Illuminate\Http\Request;
@@ -25,7 +26,8 @@ class MaterialController extends Controller
     public function create()
     {
         $categories = MaterialCategory::all();
-        return view('materials.create', compact('categories'));
+        $firms = Firm::all();
+        return view('materials.create', compact(['categories', 'firms']));
     }
 
     /**
@@ -35,13 +37,19 @@ class MaterialController extends Controller
     public function store(Request $request)
     {
         $valid = $request->validate([
-            'title' => 'required',
-            'price_per_cm' => 'required',
+            'title' => 'nullable',
+            'firm_id' => 'required',
+            'code' => 'required',
+            'color' => 'required',
             'category_id' => 'required',
             'description' => 'nullable',
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'image' => 'nullable|image'
         ]);
-        Material::create($valid);
+        $material = Material::create($valid);
+        if ($request->file('image')){
+            $material->addMedia($request->file('image'))->toMediaCollection('images');
+        }
         return redirect()->route('materials.index')->with('status', 'U shtua me sukses');
     }
 
@@ -59,7 +67,8 @@ class MaterialController extends Controller
     public function edit(Material $material)
     {
         $categories = MaterialCategory::all();
-        return view('materials.edit', compact(['categories', 'material']));
+        $firms = Firm::all();
+        return view('materials.edit', compact(['categories', 'material', 'firms']));
     }
 
     /**
@@ -69,11 +78,17 @@ class MaterialController extends Controller
     public function update(Request $request, Material $material)
     {
         $valid = $request->validate([
-            'title' => 'required',
-            'price_per_cm' => 'required',
+            'title' => 'nullable',
+            'firm_id' => 'required',
+            'code' => 'required',
+            'color' => 'required',
             'category_id' => 'required',
             'description' => 'nullable'
         ]);
+        if ($request->file('image')){
+            $material->clearMediaCollection('images');
+            $material->addMedia($request->file('image'))->toMediaCollection('images');
+        }
         $material->update($valid);
         return redirect()->route('materials.index')->with('status', 'U ndryshua me sukses');
     }

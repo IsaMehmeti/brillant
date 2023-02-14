@@ -17,6 +17,7 @@ class CreateSaleMaterialsTable extends Migration
             $table->id();
             $table->string('quantity')->nullable();
             $table->string('unit_price')->nullable();
+            $table->string('unit')->nullable();
             $table->string('amount')->nullable();
             $table->string('material_title')->nullable();
             $table->string('material_category')->nullable();

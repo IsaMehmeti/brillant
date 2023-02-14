@@ -11,7 +11,7 @@
         <div class="user-display d-flex justify-content-center mt-5 pt-5 mb-2">
         {{-- <div class="user-display-bg"><img src="/img/user-profile-display.png" alt="Profile Background"></div> --}}
         <div class="user-display-bottom mt-5 ">
-          <div class="user-display-avatar"><img src="/img/avatar-150.png" alt="Avatar"></div>
+          <div class="user-display-avatar"><img src="{{asset('/img/avatar-150.png')}}" alt="Avatar"></div>
           <div class="user-display-info">
             <div class="name">{{Auth::user()->name}}</div>
             <div class="nick"><span class="mdi mdi-email"></span> {{Auth::user()->email}}</div>

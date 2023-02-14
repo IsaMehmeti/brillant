@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="icon" href="/img/logo.jpg" sizes="32x32">
+    <link rel="icon" href="{{ asset('/img/logo.jpg')}}" sizes="32x32">
     <title>@yield('pageTitle')</title>
 
     <!-- Scripts -->
@@ -26,7 +26,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/img/logo.jpg" width="40px" height="40px">
+                    <img src="{{ asset('/img/logo.jpg')}}" width="40px" height="40px">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

@@ -12,7 +12,6 @@
             <tr>
               <th>ID</th>
               <th>Klienti</th>
-              <th>Adresa e Klientit</th>
               <th>Data</th>
               <th>Materiali</th>
               <th>Veprimet</th>
@@ -23,13 +22,12 @@
             <tr class="odd gradeX">
               <td>{{$sale->id}}</td>
               <td>{{$sale->customer_name}}</td>
-              <td>{{$sale->customer_address}}</td>
               <td>{{$sale->sale_date}}</td>
               <td>
               <form action="{{route('sales.return', $sale->id)}}" method="POST" class="w-100 d-inline">
                @if($sale->materials()->count() > 0)
                       <div class="col-sm-12">
-                          <select id="multiple-checkboxes" multiple="multiple" name="material_ids[]">
+                          <select class="multiple-checkboxes{{$sale->id}}" multiple="multiple" name="material_ids[]">
                             @foreach($sale->materials as $material)
                               <option value="{{$material->id}}"> {{$material->quantity}}{{$material->unit}} {{$material->material_title}} {{$material->material_category}} - {{$material->amount}}eur</option>
                             @endforeach
@@ -84,10 +82,13 @@
     //-initialize the javascript
     App.init();
     App.dataTables();
-    $('#multiple-checkboxes').multiselect({
-        includeSelectAllOption: true,
-        nonSelectedText: 'Materialet e Shitura'
-    });
+    @foreach ($sales as $sale)
+        $('.multiple-checkboxes{{$sale->id}}').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: 'Materialet e Shitura'
+        });
+    @endforeach
+
   });
 </script>
 @endsection
